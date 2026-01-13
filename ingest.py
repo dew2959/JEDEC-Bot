@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
 from langchain.vectorstores import Chroma
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 
 from src.utils.pdf_processor import PDFProcessor
 from src.models.enhanced_rag_engine import create_enhanced_rag_engine
