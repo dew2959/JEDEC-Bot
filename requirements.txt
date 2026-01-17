@@ -1,41 +1,22 @@
-# Core dependencies
-fastapi==0.104.1
-uvicorn[standard]==0.24.0
-streamlit==1.28.1
+# 1. API 및 웹 화면 (필수)
+fastapi
+uvicorn[standard]
+streamlit
 python-dotenv
-huggingface_hub
 
-# PDF Processing
-PyMuPDF==1.23.8
-pypdf
-unstructured==0.11.6
-unstructured[pdf]
-pillow==10.1.0
+# 2. PDF 처리 (PyMuPDF 하나면 JEDEC 문서는 충분합니다)
+PyMuPDF
 
-# LangChain and AI
-langchain>=0.2.0
-langchain-openai>=0.1.0
-langchain-community>=0.2.0
-langchain-core>=0.2.0
+# 3. AI 및 LLM 연결 (핵심)
+langchain
+langchain-openai
+langchain-community
 openai
-tiktoken==0.5.2
+tiktoken
 
-# Vector Database
-chromadb>=0.4.18
-sentence-transformers==2.2.2
+# 4. 벡터 DB (가벼운 시작)
+chromadb
 
-# Data Processing
+# 5. 데이터 처리
 pandas
 numpy==1.24.3
-markdown==3.5.1
-
-# Utilities
-pydantic==2.5.0
-httpx==0.25.2
-aiofiles==23.2.1
-
-# Development
-pytest==7.4.3
-pytest-asyncio==0.21.1
-black==23.11.0
-flake8==6.1.0
