@@ -10,5 +10,10 @@ def main():
     print("sections count:", len(sections))
     print(sections[0])
 
+    valid_sections = [s for s in sections if len(s["text"].strip()) > 100]
+
+    print("valid sections:", len(valid_sections))
+    print(valid_sections[0])
+
 if __name__ == "__main__":
     main()
