@@ -1,6 +1,14 @@
-from new_create_app.utils.pdf_parser import parse_jedec_pdf
-from new_create_app.utils.schemas import JedecDocument, JedecSection
-from new_create_app.utils.save_json import save_json
+from app.utils.pdf_parser import parse_jedec_pdf
+from app.utils.schemas import JedecDocument, JedecSection
+from app.utils.save_json import save_json
+
+# =========================
+# 설정값 (중요)
+# =========================
+MIN_TOKENS = 50
+TARGET_TOKENS = 250
+MAX_TOKENS = 450
+OVERLAP_TOKENS = 40
 
 def main():
     raw_sections = parse_jedec_pdf(
@@ -39,7 +47,7 @@ def main():
     print("sections count:", len(sections))
     print(sections[0])
 
-    from new_create_app.utils.chunker import chunk_section
+    from app.utils.chunker import chunk_section
 
     all_chunks = []
 
@@ -51,6 +59,9 @@ def main():
     print(all_chunks[0])
 
     tokens = [c["token_count"] for c in all_chunks]
+
+    print(f"chunks < MIN_TOKENS: {sum(1 for c in all_chunks if c['token_count'] < MIN_TOKENS)}")
+    print(f"chunks > MAX_TOKENS: {sum(1 for c in all_chunks if c['token_count'] > MAX_TOKENS)}")
 
     print("min:", min(tokens))
     print("max:", max(tokens))
