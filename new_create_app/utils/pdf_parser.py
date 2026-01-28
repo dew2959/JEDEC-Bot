@@ -37,7 +37,7 @@ def trim_text_by_next_section(text, current_section):
     base = current_section.split('.')[0]
 
     # 공백 또는 문장 중간에 나오는 "3.x Title" 패턴 탐지
-    pattern = rf"\b{base}\.(\d+)\s+[A-Z]"
+    pattern = rf"\b{base}\.(\d+(?:\.\d+)*)\s+[A-Z]"
 
     matches = list(re.finditer(pattern, text))
 
@@ -63,11 +63,9 @@ def parse_jedec_pdf(pdf_path: str, standard: str, version: str) -> List[Dict]:
 
     for page_num, page in enumerate(doc, start=1):   #페이지 번호 유지. 출처 신뢰성을 위해서. 
         text = page.get_text("text") 
-        text = re.sub(
-            r"Table\s+\d+\s+—.*?(?=\n[A-Z0-9])",
-            "",
-            text,
-            flags=re.DOTALL
+        text = "\n".join(
+            line for line in text.split("\n")
+            if not re.match(r"^Table\s+\d+", line.strip())
         )
         lines = text.split("\n")
 
@@ -101,7 +99,9 @@ def parse_jedec_pdf(pdf_path: str, standard: str, version: str) -> List[Dict]:
                     current_section['text'] += line + " " # 줄 단위가 아니라 의미 블록으로 text 누적
 
     if current_section:
-        current_section['text'] = trim_text_by_next_section(current_section['text'], current_section['section'])
+        current_section['text'] = trim_text_by_next_section(
+            current_section['text'], 
+            current_section['section'])
         if len(current_section["text"]) >= 200:
             sections.append(current_section)
 
