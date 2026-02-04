@@ -13,7 +13,7 @@ load_dotenv()
 PERSIST_DIRECTORY = "./chroma_db"
 
 class JEDECBot:
-    def __init__(self):
+    def __init__(self, db_path):
         """
         챗봇 엔진 초기화 : LLM, 임베딩, 벡터DB, 프롬프트 설정
         """
@@ -24,11 +24,12 @@ class JEDECBot:
         self.embedding = OpenAIEmbeddings(model="text-embedding-3-large")
 
         #3. 벡터 DB 로드 
-        if not os.path.exists(PERSIST_DIRECTORY):
-            raise FileNotFoundError(f"Vector DB not found at {PERSIST_DIRECTORY}. Run ingest.py first.")
+        if not os.path.exists(db_path):
+            raise FileNotFoundError(f"Vector DB not found at {db_path}")
         
+        # 지정된 경로의 DB를 로드
         self.vector_store = Chroma(
-            persist_directory= PERSIST_DIRECTORY,
+            persist_directory= db_path,
             embedding_function= self.embedding
         )
 
