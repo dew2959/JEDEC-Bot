@@ -21,7 +21,7 @@ class JEDECBot:
         self.llm = ChatOpenAI(model_name = "gpt-5-nano", temperature=0)
 
         #2. 임베딩 모델 설정 
-        self.embedding = OpenAIEmbeddings(model="text-embedding-3-large")
+        self.embedding = OpenAIEmbeddings(model="text-embedding-")
 
         #3. 벡터 DB 로드 
         if not os.path.exists(db_path):

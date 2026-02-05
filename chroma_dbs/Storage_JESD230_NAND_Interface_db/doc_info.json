@@ -1,0 +1,14 @@
+{
+  "title": "NAND Flash Interface Interoperability",
+  "revision": "JESD230G.01",
+  "key_params": [
+    "Interoperability",
+    "NAND Flash Interface",
+    "Solid State Technology"
+  ],
+  "recommended_questions": [
+    "이 표준의 주요 목표는 무엇인가요?",
+    "NAND 플래시 인터페이스의 호환성은 어떻게 보장되나요?",
+    "이 문서에서 제시하는 기술적 파라미터는 어떤 것들이 있나요?"
+  ]
+}

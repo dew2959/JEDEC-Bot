@@ -1,0 +1,14 @@
+{
+  "title": "Electronic-Device Packages – XML",
+  "revision": "Revision of JEP30-E100H, June 2025",
+  "key_params": [
+    "Electrical Guidelines",
+    "Package Requirements",
+    "XML Format"
+  ],
+  "recommended_questions": [
+    "이 문서에서 전자 장치 패키지의 전기적 가이드라인은 무엇인가요?",
+    "XML 형식의 패키지 요구 사항은 어떻게 되나요?",
+    "이 표준의 리비전 정보는 무엇인가요?"
+  ]
+}

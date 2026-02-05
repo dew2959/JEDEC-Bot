@@ -1,359 +1,76 @@
-# JEDEC Insight
+# 💾 JEDEC Specs Navigator: 반도체 표준 문서 분석 AI 어시스턴트
 
-RAG-based chatbot for analyzing JEDEC specification documents with advanced table extraction, comparison features, and intelligent synonym handling.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.31-FF4B4B?logo=streamlit&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-0.1-1C3C3C?logo=langchain&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?logo=openai&logoColor=white)
+![ChromaDB](https://img.shields.io/badge/VectorDB-Chroma-orange)
 
-## 🎯 Project Overview
+> **"수백 페이지의 반도체 표준 문서(JEDEC), Ctrl+F보다 더 똑똑하게 검색할 수는 없을까?"**
 
-JEDEC Insight is a sophisticated document analysis system designed specifically for JEDEC specification documents. The system excels at extracting and preserving complex table structures from PDF documents, converting them to Markdown format, and enabling intelligent querying through a RAG (Retrieval-Augmented Generation) architecture with enhanced comparison capabilities and technical term understanding.
-
-## 🏗️ Architecture
-
-### Technology Stack
-- **Backend**: FastAPI (Python)
-- **Frontend**: Streamlit Dashboard
-- **AI Framework**: LangChain with OpenAI
-- **Vector Database**: ChromaDB
-- **PDF Processing**: PyMuPDF + Unstructured
-- **Embeddings**: OpenAI text-embedding-ada-002
-- **Comparison Engine**: Custom specification comparison
-- **Synonym Dictionary**: Technical term normalization
-
-### 🚀 Core Features
-- 📄 **Advanced PDF Processing**: Dual extraction using PyMuPDF and Unstructured
-- 📊 **Table Preservation**: Complex table structures converted to Markdown without data loss
-- 🔍 **Intelligent Search**: Semantic search with MultiQueryRetriever and synonym expansion
-- 💬 **Natural Language Queries**: Ask questions in natural language about JEDEC specs
-- 📚 **Source Attribution**: All answers include source references with clickable page badges
-- 🔄 **Specification Comparison**: Compare DDR4 vs DDR5 and other specifications
-- 🎯 **Technical Term Understanding**: Handles unit conversions (ns↔ps, MHz↔MT/s)
-- 📊 **Table Rendering**: Engineers can copy table data in DataFrame format
-- ⚠️ **Enhanced Error Handling**: Comprehensive error recovery and user guidance
-
-## 📁 Project Structure
-
-```
-jedec_chatbot_proj/
-├── src/
-│   ├── backend/           # FastAPI backend
-│   │   ├── __init__.py
-│   │   └── main.py       # API endpoints and server
-│   ├── frontend/         # Streamlit dashboard
-│   │   ├── __init__.py
-│   │   ├── app.py        # Original interface
-│   │   └── dashboard.py  # Enhanced dashboard
-│   ├── models/           # AI and database models
-│   │   ├── __init__.py
-│   │   ├── rag_engine.py # Basic RAG implementation
-│   │   ├── enhanced_rag_engine.py # Enhanced RAG with comparison
-│   │   ├── comparison_engine.py # Specification comparison
-│   │   └── vector_store.py # ChromaDB wrapper
-│   ├── utils/            # Utility modules
-│   │   ├── __init__.py
-│   │   ├── pdf_processor.py # PDF processing logic
-│   │   ├── synonym_dictionary.py # Technical term handling
-│   │   └── error_handling.py # Enhanced error management
-│   └── __init__.py
-├── data/
-│   ├── pdfs/             # Input PDF files
-│   ├── processed/        # Processed Markdown files
-│   └── chroma/           # Vector database storage
-├── tests/                # Test files
-├── config/               # Configuration files
-├── requirements.txt      # Python dependencies
-├── .env                 # Environment variables
-├── run.py               # Main launcher script
-├── ingest.py            # Data ingestion pipeline
-├── test_enhanced_rag.py # Enhanced RAG tests
-└── test_complete_system.py # Complete system tests
-```
-
-## 🚀 Quick Start
-
-### 1. Environment Setup
-
-```bash
-# Clone the project
-cd jedec_chatbot_proj
-
-# Create virtual environment
-python -m venv venv
-venv\Scripts\activate  # On Windows
-source venv/bin/activate  # On Unix
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### 2. Configuration
-
-Edit the `.env` file with your settings:
-
-```env
-# OpenAI Configuration
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-3.5-turbo
-
-# Application Configuration
-APP_NAME=JEDEC Insight
-DEBUG=True
-
-# Database Configuration
-CHROMA_DB_PATH=./data/chroma
-CHROMA_COLLECTION_NAME=jepec_documents
-
-# File Processing
-PDF_INPUT_DIR=./data/pdfs
-PROCESSED_DATA_DIR=./data/processed
-```
-
-### 3. Start the Services
-
-#### Method 1: Complete System
-```bash
-python run.py all
-```
-
-#### Method 2: Individual Services
-```bash
-# Backend (FastAPI)
-python run.py backend
-
-# Frontend (Enhanced Dashboard)
-python run.py frontend
-```
-
-#### Method 3: Process Documents First
-```bash
-# Process all PDFs and ingest to vector store
-python run.py process
-
-# Or just ingest already processed files
-python run.py ingest
-```
-
-### 4. Access the Application
-
-- **Enhanced Dashboard**: http://localhost:8501
-- **API Documentation**: http://localhost:8000/docs
-
-## 📖 Usage Examples
-
-### Enhanced Query Capabilities
-
-#### Basic Queries
-```bash
-# Technical specifications
-"What is the minimum tCK for DDR4?"
-"DDR4 voltage requirements"
-"CAS latency specifications"
-
-# With unit variations
-"tCK in picoseconds"
-"3200MT/s memory speed"
-"1.2V operating voltage"
-```
-
-#### Comparison Queries
-```bash
-# Specification comparisons
-"DDR4 vs DDR5 comparison"
-"Compare DDR4 and DDR5 timing parameters"
-"DDR4와 DDR5 전압 요구사항 비교"
-
-# Feature comparisons
-"ECC vs non-ECC performance"
-"Registered vs unbuffered DIMM"
-```
-
-#### API Usage
-
-##### Upload and Process PDF
-```bash
-curl -X POST "http://localhost:8000/upload" \
-  -H "accept: application/json" \
-  -H "Content-Type: multipart/form-data" \
-  -F "file=@document.pdf"
-```
-
-##### Enhanced Query with Comparison
-```bash
-curl -X POST "http://localhost:8000/query" \
-  -H "accept: application/json" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "DDR4 vs DDR5 comparison",
-    "k": 5
-  }'
-```
-
-##### Response Structure
-```json
-{
-  "answer": "DDR5 offers significant improvements over DDR4...",
-  "specification": "Based on JEDEC standards...",
-  "additional_notes": "Key differences include...",
-  "comparison": "## DDR4 vs DDR5 비교 분석\n\n### 주요 차이점...",
-  "comparison_table": [
-    {"Specification": "TCK", "DDR4": "0.75ns", "DDR5": "0.5ns"},
-    {"Specification": "VDD", "DDR4": "1.2V", "DDR5": "1.1V"}
-  ],
-  "sources": [...],
-  "expanded_queries": ["ddr4 vs ddr5", "compare ddr4 and ddr5"],
-  "is_comparison": true
-}
-```
-
-## 🔧 Advanced Features
-
-### 1. Synonym Dictionary & Unit Conversion
-
-The system automatically understands and converts:
-
-- **Timing units**: ns ↔ ps, μs, ms
-- **Frequency units**: MHz ↔ MT/s, GHz ↔ GT/s  
-- **Voltage units**: V ↔ mV ↔ μV
-- **Technical terms**: tCK, CAS latency, DDR4 ↔ PC4, etc.
-
-### 2. Comparison Engine
-
-Automatic detection and analysis of comparison queries:
-
-- Identifies entities to compare (DDR4, DDR5, etc.)
-- Extracts technical parameters from documents
-- Generates structured comparison tables
-- Provides detailed analysis summaries
-
-### 3. Enhanced Error Handling
-
-Comprehensive error management with:
-
-- **PDF Processing Errors**: File validation, size limits, corruption detection
-- **API Errors**: Timeout handling, retry logic, connection recovery
-- **User Guidance**: Friendly error messages and suggestions
-- **System Monitoring**: Error tracking and threshold alerts
-
-### 4. Table Data Rendering
-
-Engineers can easily copy technical data:
-
-- **DataFrame Display**: Clean, sortable table format
-- **Copy-Friendly Text**: Plain text format for easy copying
-- **Source Attribution**: Direct links to original document pages
-
-## 🧪 Testing
-
-### Run Complete System Test
-```bash
-python test_complete_system.py
-```
-
-### Test Enhanced RAG Features
-```bash
-python test_enhanced_rag.py
-```
-
-### Test Individual Components
-```bash
-# Test PDF processing
-python -c "from src.utils.pdf_processor import PDFProcessor; print('PDF processor OK')"
-
-# Test synonym dictionary
-python -c "from src.utils.synonym_dictionary import get_synonym_dictionary; print('Synonym dict OK')"
-
-# Test comparison engine
-python -c "from src.models.comparison_engine import get_comparison_engine; print('Comparison engine OK')"
-```
-
-## 📊 Performance Optimization
-
-### Vector Database Optimization
-- Use OpenAI embeddings for better semantic understanding
-- Implement similarity score thresholds for relevance filtering
-- Regular maintenance and optimization of ChromaDB
-
-### Query Enhancement
-- MultiQueryRetriever for better query expansion
-- Synonym dictionary for technical term normalization
-- Unit conversion for consistent parameter matching
-
-### Error Recovery
-- Exponential backoff for API retries
-- Graceful degradation on service failures
-- User-friendly error messages with actionable suggestions
-
-## 🔒 Security Considerations
-
-- API keys loaded from environment variables only
-- No sensitive data logged or exposed
-- File upload validation and sanitization
-- CORS configuration for production environments
-- Error information sanitization for user responses
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Add comprehensive tests for new functionality
-4. Ensure all tests pass
-5. Submit a pull request with detailed description
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-#### PDF Processing Errors
-- Ensure PDFs are not password-protected
-- Check file permissions on input/output directories
-- Verify sufficient disk space for processed files
-- Maximum file size: 50MB
-
-#### API Connection Issues
-- Check if FastAPI server is running on port 8000
-- Verify OpenAI API key validity and quota
-- Check network connectivity and firewall settings
-- Monitor API rate limits and usage
-
-#### Memory/Performance Issues
-- Reduce chunk size for large documents (default: 1500)
-- Monitor ChromaDB memory usage
-- Consider using smaller embedding models for resource constraints
-- Implement document batching for large datasets
-
-#### Comparison Query Issues
-- Ensure both entities exist in the indexed documents
-- Check spelling of technical terms (DDR4, DDR5, etc.)
-- Verify sufficient context for parameter extraction
-- Review comparison results for accuracy
-
-### Debug Mode
-
-Enable debug logging:
-```env
-LOG_LEVEL=DEBUG
-DEBUG=True
-```
-
-### System Health Check
-
-```bash
-# Check API health
-curl http://localhost:8000/health
-
-# Check vector store stats
-python -c "
-from src.models.enhanced_rag_engine import create_enhanced_rag_engine
-import asyncio
-async def check():
-    engine = await create_enhanced_rag_engine()
-    print(engine.get_stats())
-asyncio.run(check())
-"
-```
+이 프로젝트는 반도체 엔지니어들이 겪는 정보 검색의 비효율성을 해결하기 위해 개발된 **RAG(Retrieval-Augmented Generation) 기반의 AI 챗봇 솔루션**입니다. 단순한 텍스트 매칭이 아닌, 문맥을 이해하는 시맨틱 검색을 통해 복잡한 타이밍 파라미터와 제약 조건을 정확하게 찾아냅니다.
 
 ---
 
-**JEDEC Insight** - Making JEDEC specifications accessible, comparable, and searchable through advanced AI technology.
+## 📌 프로젝트 소개 (Project Overview)
+
+반도체 표준(예: DDR5, HBM3) 문서는 방대하고 표(Table) 위주의 데이터가 많아, 기존 검색 방식으로는 문맥에 맞는 정답을 찾기 어렵습니다. 본 프로젝트는 **Local RAG Pipeline**을 구축하여 사용자가 자연어로 질문하면 관련 근거(Source)와 함께 정확한 답변을 제공합니다.
+
+### 🎯 핵심 기능 (Key Features)
+* **계층형 문서 라이브러리:** `DRAM`, `Storage`, `Package` 등 카테고리별로 문서를 자동 분류 및 관리.
+* **영구적 지식 베이스 (Persistent Knowledge Base):** 한 번 학습된 문서는 벡터 DB(Chroma)에 저장되어 재학습 없이 즉시 검색 가능.
+* **표(Table) 데이터 처리 강화:** `pdfplumber`를 도입하여 JEDEC 문서의 핵심인 타이밍 스펙(Table)의 레이아웃 정보 보존.
+* **문서 메타데이터 자동 생성:** 문서 학습 시 AI가 자동으로 **요약(Summary)**과 **추천 질문(Key Questions)**을 추출하여 사용자에게 가이드 제공.
+
+---
+
+## 🏗️ 시스템 아키텍처 (Architecture)
+
+단순한 1회성 스크립트가 아닌, **확장 가능한 모듈형 구조**로 설계되었습니다.
+
+![architecture](image.png)
+
+## 📁 디렉토리 구조 (Directory Structure)
+
+```bash
+.
+├── app2/
+│   ├── chain/          # RAG 로직 (LangChain)
+│   └── utils/          # PDF 파서, Vector Store 관리자
+├── chroma_dbs/         # 학습된 벡터 데이터베이스 (Persistent Storage)
+├── data/               # 원본 PDF 파일 저장소
+│   └── pdfs/           # DRAM, Storage 등 하위 폴더 자동 인식
+├── app.py              # Streamlit 메인 애플리케이션
+├── bulk_ingest.py      # 대량 문서 일괄 학습 스크립트
+└── requirements.txt    # 의존성 패키지
+```
+
+## 🛠️ 기술 스택 (Tech Stack)
+
+| 구분 | 기술 | 선정 이유 |
+| :--- | :--- | :--- |
+| **LLM** | **GPT-4o-mini** | 속도가 빠르고 비용 효율적이며, RAG 기반 요약 및 답변 생성에 준수한 성능을 제공하여 학생 프로젝트/MVP에 최적화됨. |
+| **Embedding** | **text-embedding-3-small** | 한국어/영어 기술 문서 검색에 최적화된 성능과 낮은 비용. |
+| **Framework** | **LangChain** | 모듈화된 RAG 파이프라인(Loader -> Splitter -> VectorStore -> Retriever) 구축 용이. |
+| **Vector DB** | **ChromaDB** | 별도의 서버 구축 없이 로컬 파일 시스템 기반으로 관리 가능하며, 메타데이터 필터링 지원. |
+| **Parser** | **pdfplumber** | `extract_text(layout=True)` 옵션을 통해 PDF 내 표(Table)의 물리적 레이아웃을 보존, 데이터 왜곡 최소화. |
+| **UI** | **Streamlit** | Python만으로 빠른 풀스택 프로토타이핑 가능, Chat Interface 및 Session State 관리 용이. |
+
+---
+
+## 💻 실행 방법 (How to Run)
+
+### 1. 환경 설정 (Prerequisites)
+Python 3.11 에서 실행되었습니다. 
+
+```bash
+# 레포지토리 클론
+git clone [https://github.com/](https://github.com/)[YOUR_USERNAME]/jedec-navigator.git
+cd jedec-navigator
+
+# 가상환경 생성 (권장)
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 패키지 설치
+pip install -r requirements.txt
