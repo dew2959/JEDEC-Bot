@@ -9,7 +9,7 @@ __pycache__/
 # --- Vector Database (핵심 수정 사항) ---
 # 코드에서 사용하는 실제 DB 폴더명을 반드시 포함해야 합니다.
 chroma_db/
-chroma_dbs/       # <--- [중요] 현재 코드에서 사용하는 DB 폴더
+chroma_dbs/      
 vector_store/
 *.db
 *.sqlite3
@@ -31,7 +31,7 @@ logs/
 *.jpg
 *.jpeg
 temp/
-temp_pdf/         # <--- [중요] 업로드 시 사용하는 임시 폴더
+temp_pdf/      
 
 # --- Others ---
 .DS_Store
