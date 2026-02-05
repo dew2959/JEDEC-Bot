@@ -28,7 +28,7 @@
 
 단순한 1회성 스크립트가 아닌, **확장 가능한 모듈형 구조**로 설계되었습니다.
 
-![architecture](image.png)
+<img width="2076" height="1086" alt="image" src="https://github.com/user-attachments/assets/a634048c-b792-40cd-b668-11a4ac4c1cc8" />
 
 ## 📁 디렉토리 구조 (Directory Structure)
 
