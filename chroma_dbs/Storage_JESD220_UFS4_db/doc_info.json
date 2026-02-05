@@ -1,0 +1,14 @@
+{
+  "title": "Universal Flash Storage (UFS)",
+  "revision": "JESD220F (Revision of JESD220E, January 2020)",
+  "key_params": [
+    "Version 4.0",
+    "Flash Storage",
+    "Solid State Technology"
+  ],
+  "recommended_questions": [
+    "이 표준의 주요 기술적 특징은 무엇인가요?",
+    "UFS 4.0의 성능 개선 사항은 무엇인가요?",
+    "이 표준을 적용할 때 고려해야 할 사항은 무엇인가요?"
+  ]
+}

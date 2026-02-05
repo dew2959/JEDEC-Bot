@@ -49,28 +49,9 @@
 
 | 구분 | 기술 | 선정 이유 |
 | :--- | :--- | :--- |
-| **LLM** | **GPT-4o-mini** | 속도가 빠르고 비용 효율적이며, RAG 기반 요약 및 답변 생성에 준수한 성능을 제공하여 학생 프로젝트/MVP에 최적화됨. |
-| **Embedding** | **text-embedding-3-small** | 한국어/영어 기술 문서 검색에 최적화된 성능과 낮은 비용. |
+| **LLM** | **GPT-5-nano** | 속도가 빠르고 비용 효율적 |
+| **Embedding** | **text-embedding-3-large** | 한국어/영어 기술 문서 검색에 최적화된 성능과 낮은 비용. |
 | **Framework** | **LangChain** | 모듈화된 RAG 파이프라인(Loader -> Splitter -> VectorStore -> Retriever) 구축 용이. |
 | **Vector DB** | **ChromaDB** | 별도의 서버 구축 없이 로컬 파일 시스템 기반으로 관리 가능하며, 메타데이터 필터링 지원. |
 | **Parser** | **pdfplumber** | `extract_text(layout=True)` 옵션을 통해 PDF 내 표(Table)의 물리적 레이아웃을 보존, 데이터 왜곡 최소화. |
 | **UI** | **Streamlit** | Python만으로 빠른 풀스택 프로토타이핑 가능, Chat Interface 및 Session State 관리 용이. |
-
----
-
-## 💻 실행 방법 (How to Run)
-
-### 1. 환경 설정 (Prerequisites)
-Python 3.11 에서 실행되었습니다. 
-
-```bash
-# 레포지토리 클론
-git clone [https://github.com/](https://github.com/)[YOUR_USERNAME]/jedec-navigator.git
-cd jedec-navigator
-
-# 가상환경 생성 (권장)
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# 패키지 설치
-pip install -r requirements.txt

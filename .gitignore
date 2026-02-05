@@ -6,15 +6,16 @@ __pycache__/
 *$py.class
 .env
 
-# --- Vector Database (학습된 데이터 저장소) ---
-# 로컬에서 생성된 DB는 용량이 크고 보안상 올리지 않는 것이 좋습니다.
+# --- Vector Database (핵심 수정 사항) ---
+# 코드에서 사용하는 실제 DB 폴더명을 반드시 포함해야 합니다.
 chroma_db/
+chroma_dbs/       # <--- [중요] 현재 코드에서 사용하는 DB 폴더
 vector_store/
 *.db
 *.sqlite3
 
 # --- Data & Logs ---
-# 원본 PDF 파일은 저작권 및 용량 문제로 제외하는 것을 권장합니다.
+# 원본 데이터 폴더
 data/
 logs/
 *.log
@@ -26,11 +27,11 @@ logs/
 .cursor/
 
 # --- PDF Processing Temp Files ---
-# PDF 파싱 중 생성되는 임시 이미지나 파일들
 *.png
 *.jpg
 *.jpeg
 temp/
+temp_pdf/         # <--- [중요] 업로드 시 사용하는 임시 폴더
 
 # --- Others ---
 .DS_Store
