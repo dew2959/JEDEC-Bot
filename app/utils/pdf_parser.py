@@ -1,109 +1,49 @@
-# PDF parsing의 목적 : Section 단위 의미 블록 추출 
-# PDF parser 선택 : PyMuPDF (fitz) 
-# 선택한 이유 : 빠르고, 페이지 번호 정확하고, JEDEC PDF와 궁합이 좋다. 
-'''
-핵심 책임 
-1) PDF 열기
-2) 페이지별 텍스트 추출 
-3) Section 헤더 탐지
-4) Section별 텍스트 누적
-5) 결과 JSON 반환 
-'''
+import os 
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-import fitz
-import re 
-from typing import List, Dict 
-
-
-# 정규표현식 -> 예) "7.3.2 On-Die Termination"
-SECTION_PATTERN = re.compile(r"^(\d+(\.\d+)+)\s+(.+)")
-
-
-# 목차 라인인지 확인하는 간단한 헬퍼 함수
-def is_toc_line(line: str) -> bool:
-    if line.count('.') > 10:
-        return True
-    # 끝에 페이지 번호만 있는 경우 
-    if re.search(r"\.{3,}\s*\d+$", line):
-        return True
-    return False
-
-# 섹션 분리 함수 
-def trim_text_by_next_section(text, current_section):
+def load_and_split_pdf(file_path):
     """
-    current_section: "3.1"
-    다음 섹션 예: 3.2, 3.3, 3.10 ...
-    """
-    base = current_section.split('.')[0]
-
-    # 공백 또는 문장 중간에 나오는 "3.x Title" 패턴 탐지
-    pattern = rf"\b{base}\.(\d+(?:\.\d+)*)\s+[A-Z]"
-
-    matches = list(re.finditer(pattern, text))
-
-    if not matches:
-        return text.strip()
+    PDF 문서를 load하고, 적절한 크기의 chunk로 분할하는 함수 
     
-    # 첫 번째 match가 자기 자신일 수 있으므로 두 번째부터
-    for m in matches:
-        sec = f"{base}.{m.group(1)}"
-        if sec != current_section:
-            return text[:m.start()].strip()
+    Args: 
+        file_path (str) : PDF 파일의 경로 
+    Returns:
+        list: 분할된 Document 객체 리스트 
+    """
 
-    return text.strip()
+    # 1. 문서 로드 
+    # PyPDFLoader는 PDF의 각 페이지를 하나의 Document 객체로 가져온다. 
+    print(f"Loading PDF from: {file_path}...")
+    loader = PyPDFLoader(file_path)
+    raw_documents = loader.load()
+    print(f"Loaded {len(raw_documents)} pages.")
+
+    # 2. 텍스트 분할 (Split)
+    # RecursiveCharacterTextSplitter는 문단→줄바꿈→문장 순서로 자르려고 시도하여 문맥 끊김을 방지. 
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size = 1000,              # 한 조각의 최대 글자 수 (토큰 수 아님)
+        chunk_overlap = 200,            # 조각 간 중복되는 글자 수 (문맥 유지용)
+        length_function = len,          # 길이 측정 함수 
+        is_separator_regex= False,
+    )
+
+    chunks = text_splitter.split_documents(raw_documents)
+    print(f"Split into {len(chunks)} chunks.")
+
+    return chunks
 
 
-# JEDEC PDF를 Section 단위로 파싱하는 함수 
-def parse_jedec_pdf(pdf_path: str, standard: str, version: str) -> List[Dict]:    
-     
-    doc = fitz.open(pdf_path)
+# 테스트 실행 코드 
+if __name__ == "__main__":
+    TEXT_FILE_PATH = r"C:\Users\user\Documents\jedec_chatbot_proj\data\pdfs\DRAM\JESD79-5_DDR5.pdf"
 
-    sections = []
-    current_section = None 
+    if not os.path.exists(TEXT_FILE_PATH):
+        print(f"Error : 파일을 찾을 수 없습니다. 경로를 확인해주세요")
+    else:
+        docs = load_and_split_pdf(TEXT_FILE_PATH)
 
-    for page_num, page in enumerate(doc, start=1):   #페이지 번호 유지. 출처 신뢰성을 위해서. 
-        text = page.get_text("text") 
-        text = "\n".join(
-            line for line in text.split("\n")
-            if not re.match(r"^Table\s+\d+", line.strip())
-        )
-        lines = text.split("\n")
-
-        for line in lines:
-            line = line.strip()
-            if not line:
-                continue 
-
-            match = SECTION_PATTERN.match(line)
-            if match and not is_toc_line(line): 
-                #새로운 Section 시작 
-                if current_section:
-                    current_section['text'] = trim_text_by_next_section(current_section['text'], current_section['section'])
-
-                    if len(current_section["text"]) >= 200:  ## section 길이 필터
-                        sections.append(current_section)
-
-                section_number = match.group(1)
-                title = match.group(3)
-
-                current_section = {
-                    "standard" : standard,
-                    "version" : version,
-                    "section" : section_number,
-                    "title" : title,
-                    "page" : page_num,
-                    "text" : ""
-                }
-            else:
-                if current_section:
-                    current_section['text'] += line + " " # 줄 단위가 아니라 의미 블록으로 text 누적
-
-    if current_section:
-        current_section['text'] = trim_text_by_next_section(
-            current_section['text'], 
-            current_section['section'])
-        if len(current_section["text"]) >= 200:
-            sections.append(current_section)
-
-    return sections 
-
+        print("\n---[Chunk 1 Sample] ---")
+        print(docs[0].page_content)
+        print("\n------[Metadata]------")
+        print(docs[0].metadata)
