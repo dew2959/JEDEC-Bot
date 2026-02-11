@@ -3,7 +3,6 @@ import os
 import json
 import time 
 
-# 기존에 만든 모듈들을 가져옵니다.
 from app.utils.pdf_parser2 import load_and_split_pdf
 from app.utils.vector_store import create_vector_db
 from app.chain.rag_engine import JEDECBot

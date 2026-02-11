@@ -1,6 +1,6 @@
 import os 
-from app2.utils.pdf_parser import load_and_split_pdf
-from app2.utils.vector_store import create_vector_db
+from app.utils.pdf_parser import load_and_split_pdf
+from app.utils.vector_store import create_vector_db
 from dotenv import load_dotenv
 
 # .env 파일에서 API KEY 로드  

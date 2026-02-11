@@ -1,18 +1,11 @@
 # --- Python / Virtual Environment ---
-venv/
-.venv/
 __pycache__/
 *.py[cod]
 *$py.class
 .env
 
-# --- Vector Database (핵심 수정 사항) ---
-# 코드에서 사용하는 실제 DB 폴더명을 반드시 포함해야 합니다.
-chroma_db/
+# --- Vector Database
 chroma_dbs/      
-vector_store/
-*.db
-*.sqlite3
 
 # --- Data & Logs ---
 # 원본 데이터 폴더
@@ -23,8 +16,6 @@ logs/
 # --- IDE & Editor ---
 .vscode/
 .idea/
-.windsurf/
-.cursor/
 
 # --- PDF Processing Temp Files ---
 *.png
