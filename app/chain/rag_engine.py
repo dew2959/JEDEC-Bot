@@ -1,5 +1,4 @@
 import os 
-from dotenv import load_dotenv
 
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_chroma import Chroma
@@ -7,7 +6,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 
-load_dotenv()
+OPENAI_API_KEY = os.get_env("OPENAI_API_KEY")
 
 # 벡터 DB가 저장 경로 
 PERSIST_DIRECTORY = "./chroma_db"
@@ -21,7 +20,7 @@ class JEDECBot:
         self.llm = ChatOpenAI(model_name = "gpt-5-nano", temperature=0)
 
         #2. 임베딩 모델 설정 
-        self.embedding = OpenAIEmbeddings(model="text-embedding-")
+        self.embedding = OpenAIEmbeddings(model="text-embedding-3-large")
 
         #3. 벡터 DB 로드 
         if not os.path.exists(db_path):
