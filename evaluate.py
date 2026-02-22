@@ -1,11 +1,15 @@
-import os 
+import os
 import json
-import pandas as pd 
+import pandas as pd
 from datasets import Dataset
 from dotenv import load_dotenv
 
+from openai import OpenAI
+
 from ragas import evaluate
-from ragas.metrics import (answer_relevance, faithfulness, context_recall, context_precision)
+from ragas.llms import llm_factory
+from ragas.embeddings import embedding_factory
+from ragas.metrics.collections import AnswerRelevancy, Faithfulness, ContextRecall, ContextPrecision
 
 from app.chain.rag_engine import JEDECBot
 
@@ -27,17 +31,16 @@ def main():
     contexts = []
     ground_truths = []
 
-    print(f"총 {len(test_data)}개의 질문에 대한 답변 생성 중")
+    print(f"총 {len(test_data)}개의 질문에 대한 답변 생성 중...")
 
     for item in test_data:
         q = item["question"]
         gt = item['ground_truth']
 
-        response = bot.ask(q)
+        ans = bot.ask(q)
 
-        ans = response.get("answer", "")
-
-        ctxs = [doc.page_content for doc in response.get("source_documents", [])]
+        docs = bot.vector_store.similarity_search(q, k=4)
+        ctxs = [doc.page_content for doc in docs]
 
         questions.append(q)
         answers.append(ans)
@@ -54,16 +57,22 @@ def main():
     }
     dataset = Dataset.from_dict(data_dict)
 
-    print("\n Ragas 채점 시작")
+    print("\n Ragas 채점관(LLM & 임베딩 생성 중...)")
+
+    evaluator_llm = llm_factory("gpt-4o-mini")
+    evaluator_embeddings = embedding_factory()
+
+    metrics=[
+            AnswerRelevancy(llm= evaluator_llm, embeddings= evaluator_embeddings),
+            Faithfulness(llm= evaluator_llm),
+            ContextRecall(llm= evaluator_llm),
+            ContextPrecision(llm= evaluator_llm),
+    ]
+    print("\n 본격적인 채점 시작")
 
     result = evaluate(
         dataset = dataset,
-        metrics=[
-            answer_relevance,
-            faithfulness,
-            context_recall,
-            context_precision
-        ]
+        metrics= metrics
     )
 
     print("\n ====최종 평가 결과 요약=====")

@@ -21,3 +21,5 @@ chroma_dbs/
 pdf_parser.py
 ingest.py
 README.md
+evaluate.py
+test_dataset.json
