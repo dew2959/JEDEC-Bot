@@ -1,0 +1,42 @@
+[
+  {
+    "question": "DDR5 메모리의 기본 동작 전압(VDD)은 얼마인가요?",
+    "ground_truth": "JESD79-5 표준에 따르면 DDR5의 기본 동작 전압(VDD)은 1.1V입니다. (DDR4의 1.2V보다 낮아짐)"
+  },
+  {
+    "question": "LPDDR5의 최대 데이터 전송 속도(Data Rate)는 얼마인가요?",
+    "ground_truth": "JESD209-5 표준 기준으로 LPDDR5의 최대 데이터 전송 속도는 6400 MT/s를 지원합니다."
+  },
+  {
+    "question": "DDR5 모듈(DIMM) 구조에서 전력 효율을 높이기 위해 모듈 자체에 새롭게 탑재된 부품은 무엇인가요?",
+    "ground_truth": "PMIC (Power Management IC)입니다. 이전 세대와 달리 마더보드가 아닌 메모리 모듈 자체에 PMIC를 탑재하여 전력 공급의 안정성과 효율성을 높였습니다."
+  },
+  {
+    "question": "UFS 4.0 표준(JESD220)에서 지원하는 HS-GEAR5의 레인(Lane)당 최대 데이터 전송 속도는 얼마인가요?",
+    "ground_truth": "UFS 4.0은 HS-GEAR5 모드에서 레인(Lane)당 최대 23.2 Gbps의 데이터 전송 속도를 지원합니다."
+  },
+  {
+    "question": "LPDDR4 아키텍처에서 성능 향상을 위해 채택한 채널(Channel) 구조의 특징은 무엇인가요?",
+    "ground_truth": "LPDDR4는 단일 32비트 채널 대신, 16비트 채널 2개로 구성된 '독립적인 2채널(Dual-Channel) 아키텍처'를 채택하여 병렬 처리 성능을 높이고 신호 무결성을 개선했습니다."
+  },
+  {
+    "question": "DDR5에서 칩 내부의 데이터 오류를 스스로 수정하기 위해 도입된 기술의 이름은 무엇인가요?",
+    "ground_truth": "온다이 ECC (On-Die ECC, ODECC)입니다. 미세 공정화로 인해 발생하는 단일 비트 오류(Single Bit Error)를 D램 내부에서 자체적으로 감지하고 정정합니다."
+  },
+  {
+    "question": "JEDEC 규격에서 'tRCD' 파라미터가 의미하는 바는 무엇인가요?",
+    "ground_truth": "tRCD(RAS to CAS Delay)는 메모리 컨트롤러가 특정 행(Row)을 활성화(ACTIVATE)한 후, 해당 행의 열(Column)에 접근(READ/WRITE)하기 위해 기다려야 하는 필수 지연 시간을 의미합니다."
+  },
+  {
+    "question": "DDR4 메모리에서 대역폭 향상을 위해 도입된 'Bank Group' 아키텍처의 목적은 무엇인가요?",
+    "ground_truth": "서로 다른 Bank Group에 연속적으로 접근할 때 내부 타이밍 지연(tCCD_S)을 줄여, 프리페치(Prefetch)의 한계를 극복하고 전체적인 데이터 전송 대역폭을 향상시키기 위함입니다."
+  },
+  {
+    "question": "JESD230 표준(NAND Interface)에서 고속 데이터 전송을 위해 사용하는 신호 방식(Signaling)은 무엇인가요?",
+    "ground_truth": "초고속 데이터 전송 시 신호의 노이즈를 줄이고 무결성을 확보하기 위해 차동 신호 방식(Differential Signaling, 예: DQS_t/DQS_c, RE_t/RE_c)을 사용합니다."
+  },
+  {
+    "question": "LPDDR5에서 전력 소모를 최소화하기 위해 클럭 신호에 적용한 새로운 기술은 무엇인가요?",
+    "ground_truth": "WCK(Word Clock) 기반의 클럭 구조를 도입하여, 데이터를 전송하지 않는 유휴(Idle) 상태에서는 고속 클럭 토글링을 멈추거나 주파수를 동적으로 조절(Dynamic Frequency Scaling)하여 전력 효율을 극대화했습니다."
+  }
+]
