@@ -1,42 +1,82 @@
 [
   {
-    "question": "DDR5 메모리의 기본 동작 전압(VDD)은 얼마인가요?",
-    "ground_truth": "JESD79-5 표준에 따르면 DDR5의 기본 동작 전압(VDD)은 1.1V입니다. (DDR4의 1.2V보다 낮아짐)"
+    "question": "DDR5 메모리의 기본 동작 전압(VDD)은 얼마이며 이전 세대와 비교해 어떻게 변했나요?",
+    "ground_truth": "DDR5의 기본 동작 전압(VDD)은 1.1V로, DDR4의 1.2V 대비 낮아져 전력 효율이 개선되었습니다."
   },
   {
-    "question": "LPDDR5의 최대 데이터 전송 속도(Data Rate)는 얼마인가요?",
-    "ground_truth": "JESD209-5 표준 기준으로 LPDDR5의 최대 데이터 전송 속도는 6400 MT/s를 지원합니다."
+    "question": "DDR5 모듈(DIMM)에 전력을 공급하고 관리하기 위해 새롭게 모듈 기판에 탑재된 부품은 무엇인가요?",
+    "ground_truth": "PMIC (Power Management IC)입니다. 마더보드가 아닌 메모리 모듈 자체에 탑재되어 전력 공급의 안정성을 높입니다."
   },
   {
-    "question": "DDR5 모듈(DIMM) 구조에서 전력 효율을 높이기 위해 모듈 자체에 새롭게 탑재된 부품은 무엇인가요?",
-    "ground_truth": "PMIC (Power Management IC)입니다. 이전 세대와 달리 마더보드가 아닌 메모리 모듈 자체에 PMIC를 탑재하여 전력 공급의 안정성과 효율성을 높였습니다."
+    "question": "DDR5의 뱅크(Bank) 구조는 어떻게 구성되어 있나요?",
+    "ground_truth": "DDR5는 총 32개의 뱅크를 가지며, 8개의 뱅크 그룹(Bank Group)으로 나뉘어 각 그룹당 4개의 뱅크가 할당된 구조입니다."
   },
   {
-    "question": "UFS 4.0 표준(JESD220)에서 지원하는 HS-GEAR5의 레인(Lane)당 최대 데이터 전송 속도는 얼마인가요?",
-    "ground_truth": "UFS 4.0은 HS-GEAR5 모드에서 레인(Lane)당 최대 23.2 Gbps의 데이터 전송 속도를 지원합니다."
+    "question": "DDR5에서 칩 내부의 미세 공정으로 인한 데이터 오류를 자체적으로 수정하는 기술은 무엇인가요?",
+    "ground_truth": "온다이 ECC (On-Die ECC, ODECC) 기능이 탑재되어 D램 내부에서 발생하는 단일 비트 오류(Single Bit Error)를 스스로 감지하고 정정합니다."
   },
   {
-    "question": "LPDDR4 아키텍처에서 성능 향상을 위해 채택한 채널(Channel) 구조의 특징은 무엇인가요?",
-    "ground_truth": "LPDDR4는 단일 32비트 채널 대신, 16비트 채널 2개로 구성된 '독립적인 2채널(Dual-Channel) 아키텍처'를 채택하여 병렬 처리 성능을 높이고 신호 무결성을 개선했습니다."
+    "question": "DDR5 모듈의 채널(Channel) 아키텍처는 이전 세대와 어떻게 달라졌나요?",
+    "ground_truth": "단일 64비트 채널 구조였던 DDR4와 달리, DDR5는 하나의 DIMM 내부에 완전히 독립된 2개의 32비트(ECC 포함 시 40비트) 듀얼 채널 구조를 채택하여 메모리 접근 효율을 높였습니다."
   },
   {
-    "question": "DDR5에서 칩 내부의 데이터 오류를 스스로 수정하기 위해 도입된 기술의 이름은 무엇인가요?",
-    "ground_truth": "온다이 ECC (On-Die ECC, ODECC)입니다. 미세 공정화로 인해 발생하는 단일 비트 오류(Single Bit Error)를 D램 내부에서 자체적으로 감지하고 정정합니다."
+    "question": "DDR5의 기본 버스트 길이(Burst Length, BL)는 얼마인가요?",
+    "ground_truth": "DDR5의 기본 버스트 길이는 BL16(Burst Length 16)으로, DDR4의 BL8 대비 두 배 증가하여 데이터 버스 효율이 향상되었습니다."
   },
   {
-    "question": "JEDEC 규격에서 'tRCD' 파라미터가 의미하는 바는 무엇인가요?",
-    "ground_truth": "tRCD(RAS to CAS Delay)는 메모리 컨트롤러가 특정 행(Row)을 활성화(ACTIVATE)한 후, 해당 행의 열(Column)에 접근(READ/WRITE)하기 위해 기다려야 하는 필수 지연 시간을 의미합니다."
+    "question": "고속 데이터 전송 시 수신단에서 신호의 왜곡을 보정하여 신호 무결성(Signal Integrity)을 개선하는 DDR5의 기능은 무엇인가요?",
+    "ground_truth": "DFE (Decision Feedback Equalization) 회로를 수신단에 탑재하여 고주파 환경에서 닫힌 눈(Closed Eye) 신호를 열어주고 노이즈를 줄입니다."
   },
   {
-    "question": "DDR4 메모리에서 대역폭 향상을 위해 도입된 'Bank Group' 아키텍처의 목적은 무엇인가요?",
-    "ground_truth": "서로 다른 Bank Group에 연속적으로 접근할 때 내부 타이밍 지연(tCCD_S)을 줄여, 프리페치(Prefetch)의 한계를 극복하고 전체적인 데이터 전송 대역폭을 향상시키기 위함입니다."
+    "question": "DDR5에서 특정 뱅크만 리프레시(Refresh)하면서 다른 뱅크는 정상적으로 읽기/쓰기 작업을 수행할 수 있게 해주는 기능의 이름은 무엇인가요?",
+    "ground_truth": "Same Bank Refresh (SBR) 기능입니다. 이를 통해 전체 메모리의 가용성과 시스템 성능을 크게 향상시킬 수 있습니다."
   },
   {
-    "question": "JESD230 표준(NAND Interface)에서 고속 데이터 전송을 위해 사용하는 신호 방식(Signaling)은 무엇인가요?",
-    "ground_truth": "초고속 데이터 전송 시 신호의 노이즈를 줄이고 무결성을 확보하기 위해 차동 신호 방식(Differential Signaling, 예: DQS_t/DQS_c, RE_t/RE_c)을 사용합니다."
+    "question": "SPD(Serial Presence Detect) 칩과 통신하기 위해 DDR5에서 새롭게 도입한 직렬 버스 인터페이스 규격은 무엇인가요?",
+    "ground_truth": "기존 I2C 대신 더 빠르고 확장성이 뛰어난 MIPI I3C 인터페이스를 도입하여 시스템 관리 버스(Sideband Bus) 속도를 높였습니다."
   },
   {
-    "question": "LPDDR5에서 전력 소모를 최소화하기 위해 클럭 신호에 적용한 새로운 기술은 무엇인가요?",
-    "ground_truth": "WCK(Word Clock) 기반의 클럭 구조를 도입하여, 데이터를 전송하지 않는 유휴(Idle) 상태에서는 고속 클럭 토글링을 멈추거나 주파수를 동적으로 조절(Dynamic Frequency Scaling)하여 전력 효율을 극대화했습니다."
+    "question": "DDR5의 커맨드/어드레스(Command/Address, CA) 버스 토폴로지의 주요 특징은 무엇인가요?",
+    "ground_truth": "명령어(Command), 주소(Address), 그리고 칩 셀렉트(Chip Select) 신호를 단일 버스로 멀티플렉싱(Multiplexing)하여 핀 수를 줄이고 고속 전송에 유리하게 설계되었습니다."
+  },
+  {
+    "question": "JEDEC JESD79-5 표준에서 정의한 DDR5의 초기 핀당 데이터 전송 속도(Data Rate) 대역은 어떻게 되나요?",
+    "ground_truth": "초기 표준 기준 4800 MT/s에서 시작하여 최대 6400 MT/s 이상의 데이터 전송 속도를 지원하도록 정의되어 있습니다."
+  },
+  {
+    "question": "VPP 전압 파라미터는 DDR5에서 어떤 역할을 하며 전압 레벨은 얼마인가요?",
+    "ground_truth": "VPP는 워드라인 활성화(Wordline Activation) 등에 사용되는 펌프 전압으로, DDR5에서는 1.8V를 사용합니다."
+  },
+  {
+    "question": "DDR5 메모리 트레이닝 과정 중, 컨트롤러가 보낸 데이터를 DRAM이 그대로 다시 반환하여 신호 정렬 상태를 테스트하는 모드는 무엇인가요?",
+    "ground_truth": "루프백(Loopback) 모드입니다. 컨트롤러가 DFE 및 수신단 설정을 최적화하기 위해 사용합니다."
+  },
+  {
+    "question": "DRAM 내부 타이밍 파라미터 중 tRCD는 무엇을 의미하나요?",
+    "ground_truth": "tRCD(RAS to CAS Delay)는 Active 명령(특정 로우 활성화) 이후 Read 또는 Write 명령(컬럼 접근)을 내리기까지 기다려야 하는 최소 지연 시간입니다."
+  },
+  {
+    "question": "DDR5에서 메모리 컨트롤러와 DRAM 간 데이터 전송의 동기화를 위해 사용하는 차동 신호(Differential Signal)의 이름은 무엇인가요?",
+    "ground_truth": "DQS_t와 DQS_c로 구성된 데이터 스트로브(Data Strobe) 차동 신호를 사용합니다."
+  },
+  {
+    "question": "DDR5의 CA 트레이닝(CA Training) 목적은 무엇인가요?",
+    "ground_truth": "메모리 컨트롤러와 DRAM 간의 Command/Address 버스 신호의 샘플링 타이밍(VrefCA 및 클럭 정렬)을 최적화하여 고속 통신 시 명령 전달 오류를 방지하기 위함입니다."
+  },
+  {
+    "question": "ZQ 캘리브레이션(ZQ Calibration)은 DDR5에서 어떤 역할을 하나요?",
+    "ground_truth": "온도 및 전압 변화에 따라 DRAM의 데이터 출력 드라이버 저항(Ron)과 On-Die Termination(ODT) 값을 실시간으로 정밀하게 보정하는 역할을 합니다."
+  },
+  {
+    "question": "DDR5에서 활성화(Active)된 페이지(Row)를 닫고 다음 데이터 접근을 위해 센스 앰프(Sense Amplifier)를 초기화하는 명령은 무엇인가요?",
+    "ground_truth": "프리차지(Precharge) 명령입니다."
+  },
+  {
+    "question": "DDR5의 모드 레지스터(Mode Register, MR)는 어떤 용도로 사용되나요?",
+    "ground_truth": "DRAM의 버스트 길이(BL), CAS 레이턴시(CL), ODT 설정, 테스트 모드 등 주요 동작 파라미터와 구성을 저장하고 제어하는 데 사용됩니다."
+  },
+  {
+    "question": "DDR5 DIMM 핀 아웃 설계 시, PCB 앞/뒷면에 칩을 효율적으로 실장하고 라우팅을 돕기 위해 도입된 핀 배열 방식은 무엇인가요?",
+    "ground_truth": "미러 핀(Mirrored Pin) 아웃 설계입니다. 이를 통해 듀얼 다이 패키지나 양면 실장 시 배선 길이를 최소화하고 신호 무결성을 확보합니다."
   }
 ]

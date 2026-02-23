@@ -21,6 +21,7 @@ logs/
 *.png
 *.jpg
 *.jpeg
+*.csv
 temp/
 temp_pdf/      
 
