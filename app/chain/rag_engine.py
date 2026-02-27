@@ -35,6 +35,23 @@ class JEDECBot:
         #4. 검색기 설정. k=3으로 설정하여 가장 유사한 문서 조각 3개를 가져오기로 함 
         self.retriever = self.vector_store.as_retriever(search_kwags={"k":3})
 
+        #### 프롬프트 템플릿 버전1 ####
+        # self.prompt = ChatPromptTemplate.from_template(
+        #     """
+        #     당신은 반도체 JEDEC 표준 문서 전문가입니다.
+        #     아래의 [Context]를 바탕으로 사용자의 질문에 답변하세요.
+
+        #     규칙:
+        #     1. 반드시 제공된 [Context] 내용에 기반해서만 답변하세요.
+        #     2. [Context]에 없는 내용이라면, "문서에서 관련 내용을 찾을 수 없습니다." 라고 솔직하게 말하세요.
+        #     3. 답변 끝에 참조한 정보가 포함된 페이지 정보가 있다면 언급해주세요. (Context 메타데이터 활용)
+
+        #     [Context]: {context}
+        #     [Question] : {question}
+        #     [Answer]:
+        #     """
+        # )
+
         #5. 프롬프트 템플릿 설정 
         self.prompt = ChatPromptTemplate.from_template(
             """

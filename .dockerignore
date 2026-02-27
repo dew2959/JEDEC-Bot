@@ -18,9 +18,11 @@ __pycache__/
 # 기타 
 temp_pdf/
 chroma_dbs/  
+chroma_db_agentic
 pdf_parser.py
 ingest.py
 README.md
 evaluate.py
 test_dataset.json
 *.csv
+rag_engine_hybrid.py

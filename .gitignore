@@ -5,7 +5,8 @@ __pycache__/
 .env
 
 # --- Vector Database
-chroma_dbs/      
+chroma_dbs/    
+chroma_db_agentic  
 
 # --- Data & Logs ---
 # 원본 데이터 폴더

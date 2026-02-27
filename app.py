@@ -167,8 +167,6 @@ if selected_db_path and os.path.exists(selected_db_path):
     # 1. 문서 메타데이터 로드 및 표시
     metadata = load_doc_metadata(selected_db_path)
 
-    clicked_q = None
-
     if metadata:
         # 제목 및 리비전
         st.markdown(f"### 📄 {metadata.get('title', 'Document')} <span style='font-size:0.8em; color:gray'>({metadata.get('revision', '')})</span>", unsafe_allow_html=True)
@@ -183,10 +181,11 @@ if selected_db_path and os.path.exists(selected_db_path):
         cols = st.columns(3)
         questions = metadata.get('recommended_questions', [])
         
-        # 버튼을 누르면 해당 질문이 채팅창에 입력되도록 처리
+        # 추천 질문 버튼 클릭 시, 즉시 처리하지 말고 세션에 "대기 질문"으로 저장
         for i, q in enumerate(questions[:3]): # 최대 3개
             if cols[i].button(q, key=f"q_btn_{i}"):
-                clicked_q = q
+                st.session_state.pending_prompt = q
+                st.rerun()
     else:
         # 구버전 DB라 메타데이터가 없는 경우
         st.caption(f"📚 현재 문서: {os.path.basename(selected_db_path)}")
@@ -200,32 +199,29 @@ if selected_db_path and os.path.exists(selected_db_path):
     # 채팅 인터페이스 
     if "messages" not in st.session_state:
         st.session_state.messages = [{"role": "assistant", "content": "선택하신 문서에 대해 질문해주세요."}]
+    if "pending_prompt" not in st.session_state:
+        st.session_state.pending_prompt = None
 
+    # 기존 메시지 렌더링 
     for msg in st.session_state.messages:
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
 
     # 사용자 입력 처리 (버튼 클릭 or 직접 입력)
-    prompt = None
-    if clicked_q:
-        prompt = clicked_q # 버튼 클릭 시
-    elif input_text := st.chat_input("질문 입력..."):
-        prompt = input_text # 직접 입력 시
+    if "pending_prompt" not in st.session_state:
+        st.session_state.pending_prompt = None
+
+    prompt = st.session_state.pending_prompt
+    if not prompt:
+        prompt = st.chat_input("질문 입력...")
 
     if prompt:
+        st.session_state.pending_prompt = None
         st.session_state.messages.append({"role": "user", "content": prompt})
-        
-        # (중요) 버튼 클릭 시 화면 갱신을 위해 rerun이 필요할 수 있지만, 
-        # Streamlit 흐름상 메시지 append 후 아래 로직을 타게 함.
-        if clicked_q:
-             st.rerun() # 버튼 클릭 효과를 즉시 반영하기 위해 리프레시
 
     # 마지막 메시지가 유저라면 답변 생성 (버튼 클릭 후 리런되면 이리로 옴)
     if st.session_state.messages[-1]["role"] == "user":
         last_prompt = st.session_state.messages[-1]["content"]
-        
-        with st.chat_message("user"):
-            st.markdown(last_prompt)
 
         with st.chat_message("assistant"):
             ph = st.empty()
@@ -242,6 +238,7 @@ if selected_db_path and os.path.exists(selected_db_path):
                     ph.error(f"Error: {e}")
         
         st.session_state.messages.append({"role": "assistant", "content": full_res})
+        st.rerun()
 
 else:
     # 문서 미선택 시 안내 화면
